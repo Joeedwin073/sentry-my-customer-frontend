@@ -35,37 +35,40 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('store.update', $response->_id) }}" method="POST">
+                                        <form id="submitForm" action="{{ route('store.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control" value="{{ $response->store_name }}"  placeholder="XYZ Stores">
+                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required minlength="2" maxlength="25" minlength="2">
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away....">
+                                            <input type="text" name="tagline" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" required maxlength="50" minlength="4">
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348173644654">
+                                            <input type="text" name="" id="phone" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="8173644654" minlength="6" maxlength="16">
+                                            <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                            <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                            <label for="inputEmailAddress"> Email Address (Optional) </label>
+                                            <input name="email" class="form-control" value="{{old('email', $response->email)}}">
                                         </div>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
+                                          <input type="text" name="shop_address" class="form-control" value="{{old('shop_address', $response->shop_address)}}"  minlength="5" maxlength="100">
                                         </div>
                                         <button type="submit" class="btn btn-success">
                                             Update Changes
                                         </button>
                                     </form>
+                                    
                                 </div>
                              </div>
                         </div>
@@ -85,9 +88,27 @@
 @section("javascript")
    <script src="/backend/assets/build/js/intlTelInput.js"></script>
    <script>
-   var input = document.querySelector("#phone");
-   window.intlTelInput(input, {
-       // any initialisation options go here
-   });
-   </script>
+    var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+
+</script>
 @stop

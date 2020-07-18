@@ -7,7 +7,6 @@
 @stop
 
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row ">
@@ -27,52 +26,47 @@
                                         <h3 class="h3 mb-0 mt-4 text-center">Register</h3>
                                         <br><br>
                                         @if(Session::has('message'))
-                                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                            {{ Session::get('message') }}</p>
                                         @endif
 
                                         @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
+                                        @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger">
+                                            {{ $error }}
+                                        </div>
+                                        @endforeach
                                         @endif
 
-                                        <form action="{{route('register')}}" class="authentication-form" method="POST">
+                                        <form action="{{route('register')}}" class="authentication-form" method="POST"
+                                            id="submitForm">
                                             @csrf
                                             <div class="form-group">
-                                                {{-- <label class="form-control-label">First Name</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input type="text" id="first_name" name="first_name" class="form-control" >
-                                                </div>
-                                                <label class="form-control-label">Last Name</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input type="text" id="last_name" name="last_name" class="form-control" >
-                                                </div>
-                                                <label class="form-control-label">Email</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input type="email" id="email" name="email" class="form-control" >
-                                                </div> --}}
                                                 <label class="form-control-label mt-0 mb-2">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
-
                                                     </div>
-                                                    <input type="number" id="phone" name="phone_number" class="form-control" required>
+                                                    <input type="number" id="phone" name="" class="form-control"
+                                                        value="" aria-describedby="helpPhone" placeholder="813012345"
+                                                        required>
+                                                    <input type="hidden" name="phone_number" id="phone_number"
+                                                        class="form-control">
                                                     <div class="red-warn">Please enter a valid phone number</div>
                                                 </div>
+                                                <small id="helpPhone" class="form-text text-muted">Enter your number
+                                                    without the starting 0, eg 813012345</small>
                                                 <label class="form-control-label mt-2 mb-2">Password</label>
                                                 <div class="input-group input-group-merge">
-                                                    <input type="password" id="password" name="password" class="form-control" required>
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control" required>
                                                 </div>
                                                 <div class="pass-feedback"></div>
                                             </div>
 
                                             <div class="form-group mb-0 text-center">
                                                 <button class="btn btn-primary btn-block" type="submit"> Get
-                                                    Started</button>
+                                                    Started
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -85,7 +79,8 @@
                         <div class="row mt-3">
                             <div class="col-12 text-center">
                                 <p class="text-muted">Back to <a href="{{ route('login') }}"
-                                        class="text-primary font-weight-bold ml-1">Login</a></p>
+                                        class="text-primary font-weight-bold ml-1">Login</a>
+                                </p>
                             </div> <!-- end col -->
                         </div>
                         <!-- end row -->
@@ -112,10 +107,31 @@
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
+    $(document).ready(function () {
+        var input = document.querySelector("#phone");
+        var test = window.intlTelInput(input, {
+            separateDialCode: true,
+            // any initialisation options go here
+        });
+
+        $("#phone").keyup(() => {
+            if ($("#phone").val().charAt(0) == 0) {
+                $("#phone").val($("#phone").val().substring(1));
+            }
+        });
+
+        $("#submitForm").submit((e) => {
+            e.preventDefault();
+            const dialCode = test.getSelectedCountryData().dialCode;
+            if ($("#phone").val().charAt(0) == 0) {
+                $("#phone").val($("#phone").val().substring(1));
+            }
+            $("#phone_number").val(dialCode + $("#phone").val());
+            $("#submitForm").off('submit').submit();
+
+        });
     });
+
 </script>
 <script src="/backend/assets/js/pages/sign-up-valid.js"></script>
 

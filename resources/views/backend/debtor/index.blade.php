@@ -1,228 +1,429 @@
-
 @extends('layout.base')
 @section("custom_css")
-    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-    <link rel="stylesheet" href="/backend/assets/css/add_creditor.css">
+<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
 @stop
-        @section('content')
-                <div class="content">
+@section('content')
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row page-title">
+                <div class="col-md-12">
+                    <h4 class="mb-1 mt-0">Debtors</h4>
+                        {{-- <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
+                            Create a debt reminder
+                        </button> --}}
+                    
+                    {{-- <a href="{{ route('debtor.create') }}" class="btn btn-primary float-right">
+                        Create New Debtors &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a> --}}
+                    <!-- /.modal -->
 
-                    <div class="container-fluid">
-                        <div class="row justify-content-center">
-                            <div class="col-md-7 mb-0">
-                                <div class="card mb-3 mt-5 creditor-card">
-                                    <h4 class="pl-3 float-left text-white"> Add Debtor</h4>
-                                </div>
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="firstname">First Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="email" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter First Name">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="lastname">Last Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="email" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Last Name">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Email address</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            @
-                                                        </span>
-                                                    </div>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="phonenumber">Phone Number</label>
-                                                <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-
-                                                    </div>
-                                                    <input type="tel" id="phone" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="phonenumber">Amount</label>
-                                                        <input type="number" class="form-control" id="phonenumber" placeholder="Enter Amount">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="phonenumber">Date due</label>
-                                                        <input type="date" class="form-control" id="phonenumber" placeholder="Enter Due Date">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                        </form>
-
-                                    </div> <!-- end card-body-->
-                                </div> <!-- end card-->
-
-                            </div>
-                            <div class="col-md-5 mb-0">
-                                <div class="card contact-list mb-0 mt-2 shadow-none p-3">
-                                    <div class="row">
-                                        <div class="col-sm-9">
-                                            <div class="task-search d-inline-block">
-                                                <form>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control search-input"
-                                                            placeholder="Search..." />
-                                                        <span class="uil uil-search icon-search"></span>
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-soft-primary" type="button">
-                                                                <i class='uil uil-file-search-alt'></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="float-sm-right mt-3 mt-sm-0">
-                                                <div class="dropdown d-inline-block">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class='uil uil-sort-amount-down'></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#">Due Date</a>
-                                                        <a class="dropdown-item" href="#">Added Date</a>
-                                                        <a class="dropdown-item" href="#">Assignee</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card bg-warning mt-3 mb-3 pl-3">Add Creditor from Contacts</div>
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless">
-                                            <tbody>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>John Doe </b> &nbsp; &nbsp;<span class="badge badge-success">Has debt</span><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Mary Doe </b> &nbsp; &nbsp;<span class="badge badge-success">Has debt</span><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Chris Kelvin </b><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Luke Brown</b><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Lynda Doe </b> &nbsp; &nbsp;<span class="badge badge-danger">Has credit</span><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Alvin Chris</b><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row"><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle"/></td>
-                                                    <td><b>Henry Doe</b> &nbsp; &nbsp;<span class="badge badge-danger">Has credit</span><br>
-                                                        <small>09072837921 </small>
-                                                    </td>
-                                                    <td><a name="" id="" class="btn btn-primary btn-sm" href="#" role="button" data-toggle="modal" data-target="#AmountModal"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div> <!-- end card -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="AmountModal" class="modal fade" tabindex="-1" role="dialog"
-                    aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
+                    aria-labelledby="mySmallModalLabel2" aria-hidden="true">
+                    <div class="modal-dialog modal-sm2">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Enter Amount</h5>
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-label="Close">
+                                <h5 class="modal-title" id="mySmallModalLabel">Update Debtor Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal">
-                                    <div class="form-group row mb-3">
-                                        <label for="inputphone" class="col-3 col-form-label">Amount</label>
-                                        <div class="col-9">
-                                            <input type="number" class="form-control" id="inputphone" placeholder="Enter Amount">
-                                        </div>
+                                <form>
+                                    <div class="form-group">
+                                        <select name="" id="exampleInput1" class="form-control">
+                                            <option value="Unpaid">Unpaid</option>
+                                            <option value="Paid">Paid</option>
+                                        </select>
+                                        
                                     </div>
-                                    <div class="form-group mb-0 justify-content-end row">
-                                        <div class="col-9">
-                                            <button type="submit" class="btn btn-primary btn-block ">Submit</button>
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
                                 </form>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
-        @endsection
+                </div>
+            </div>
+            </div>
+
+            {{-- <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mt-0 mb-1">Basic Data Table</h4>
+                            <p class="sub-header">
+                                Find Debts
+                            </p>
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="form-group col-lg-4 mt-4">
+                                        <div class="row">
+                                            <label class="form-control-label">Transaction ID</label>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="icon-dual" data-feather="lock"></i>
+                                                        </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="password">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4 mt-4">
+                                        <label class="form-control-label">Status</label>
+                                        <div class="input-group input-group-merge">
+                                            <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="icon-dual" data-feather="lock"></i>
+                                                        </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-4 mt-4">
+                                        <label class="form-control-label">Date Published</label>
+                                        <div class="input-group input-group-merge">
+                                            <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="icon-dual" data-feather="lock"></i>
+                                                        </span>
+                                            </div>
+                                            <input type="date" class="form-control" id="date">
+                                        </div>
+                                    </div>
 
 
-    @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
+                                    <button type="button" class="btn btn-primary">Search</button>
+                                </div>
+
+
+                            </div>
+
+                        </div> <!-- end card body-->
+                    </div>
+                </div>
+            </div> --}}
+
+            @if(Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="sub-header">
+                                Find debtors by store name
+                            </p>
+                            <div class="container-fluid">
+                                @isset($stores)
+                                <form action="{{ route('debt.search') }}" method="GET">
+                                        <div class="form-group col-lg-4 mt-4">
+                                            <label class="form-control-label">Store Name</label>
+                                            <div class="input-group input-group-merge">
+                                                
+                                                <select name="store_id" class="form-control">
+                                                    <option value="" selected disabled>None selected</option>
+                                                    
+                                                    @foreach ($stores as $index => $store )
+                                                        <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                                <button type="search" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                @endisset
+                            </div>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            
+            <!-- For store admin -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
+                            <p class="sub-header">
+                                List of all Debtors <br>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table mb-0" id="basic-datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Transaction ID</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col"> Amount</th>
+                                        <th scope="col">Created Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        
+                                    @isset($debtors)
+                                    @foreach ($debtors as $key => $debtor)
+   
+                                    <tr>
+                                        <th scope="row">{{ $key+1 }}</th>
+                                        
+                                            <td> 
+                                                {{ $debtor->_id }}
+                                            </td>
+                                            <td>
+                                                @if(print($debtor->status == 1))
+                                                    <span class="badge badge-danger }}">Unpaid</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span>{{ $debtor->description }}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{ $debtor->amount }}</span>
+                                            </td>
+                                            <td>
+                                                {{ date_format(new DateTime($debtor->createdAt  ),'Y-m-d') }}
+                                            </td>
+                                    
+                                        {{-- {<td>
+                                            {{ date_format(new DateTime($debtor->expected_pay_date  ),'Y-m-d') }}
+                                        </td> --}}
+
+                                            <td>
+                                                <a class="btn btn-info btn-small py-1 px-2"
+                                                    href="{{ route('debtor.show', $debtor->_id) }}">
+                                                    View More
+                                                </a>
+                                              <!--  <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-info dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                        View More<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        {{-- <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a> --}}
+                                                        <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
+                                                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#bs-example-modal-sm2">
+                                                            Update Status
+                                                        </a>
+                                                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#bs-example-modal-sm">
+                                                            Schedule reminder
+                                                        </a>
+                                                        {{-- <a class="dropdown-item" href="{{ route('reminder') }}" data-toggle="modal" data-target="#bs-example-modal-sm2">
+                                                            Send a reminder
+                                                        </a> --}}
+                                                        <form id="reminder-form-{{ $debtor->_id }}" action="{{ route('reminder') }}" method="POST"
+                                                                style="display:none">
+                                                            @csrf
+                                                            <input type="hidden" name="transaction_id" value="{{ $debtor->_id }}">
+                                                        </form>
+
+                                                        <a class="dropdown-item" href=""
+                                                                onclick="
+                                                                        if(confirm('Are you sure You want to send a reminder to this user'))
+                                                                        {event.preventDefault(); document.getElementById('reminder-form-{{ $debtor->_id }}').submit();}
+                                                                        else{
+                                                                        event.preventDefault();
+                                                                    }"> Send a reminder </a>
+                                                    </div>-->
+                                                </div>
+                                            </td>
+                                        <th>
+                                    </tr>
+                                    
+                                    
+                                    @endforeach
+                                    @endisset
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- @isset($debtors)
+                        {{ $debtors->links() }}
+                    @endisset --}}
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- End of store Admin -->
+
+            <!-- For store Assistant -->
+            {{-- <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                           <!-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> -->
+                            <p class="sub-header">
+                                List of all Debtors <br>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table mb-0" id="basic-datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Transaction ID</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Publish Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @isset($debtors)
+                                    @foreach ($debtors as $key => $debtor)
+                                    {{-- <tr>
+                                        <th scope="row">{{ $key+1 }}</th>
+                                        <td>
+                                            <span>{{ $debtor->debt_obj->ts_ref_id }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-{{ ($debtor->debt_obj->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->debt_obj->status }}</span>
+                                        </td>
+                                        <td>
+                                            {{ $debtor->debt_obj->message }}
+                                        </td>
+                                        <td>
+                                            {{ date_format(new DateTime($debtor->debt_obj->expected_pay_date  ),'Y-m-d') }}
+                                        </td>
+
+                                        <td>
+                                            <div class="btn-group mt-2 mr-1">
+                                                <button type="button" class="btn btn-info dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->debt_obj->_id]) }}">View</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}">Edit</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}" data-toggle="modal" data-target="#bs-example-modal-sm2">
+                                                        Update Status
+                                                    </a>
+                                                    <form action="{{ route('debtor.destroy',[$debtor->debt_obj->_id]) }}" method="post">
+                                                        <input type="hidden" name="store_name" value="{{ $debtor->store_name }}">
+                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->debt_obj->customer_phone_number }}">
+                                                        <input class="dropdown-item" type="submit" value="Delete" />
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                                    {{-- @endforeach
+                                    @endisset
+                                    </tbody>
+                                </table>
+                            </div>
+                            @isset($debtors)
+                        {{ $debtors->links() }}
+                    @endisset
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col--> --}}
+            {{-- </div> --}}
+            <!-- End of store Assistant -->
+
+        </div>
+    </div>
+
+@endsection
+
+
+@section("javascript")
+    <script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            // any initialisation options go here
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#basic-datatable').DataTable( {
+            paging: false
+        } );
+        } );
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            clearBtn: true,
+            format: "dd/mm/yyyy"
+        });
+        $("#timepicker").datetimepicker({
+            format: "HH:mm",
+            icons: {
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down"
+            }
+        });
+    </script>
+    {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
 <script>
-var input = document.querySelector("#phone");
-window.intlTelInput(input, {
-    // any initialisation options go here
-});
+    var debtors_intro_shown = localStorage.getItem('debtors_intro_shown');
+
+    if (!debtors_intro_shown) {
+
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
+
+        tour.addStep("step", {
+            text: "Welcome to debtors Page, here you can track your debtors",
+            buttons: [
+                {
+                    text: "Next",
+                    action: tour.next
+                }
+            ]
+        });
+
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('debtors_intro_shown', 1);
+    }
 </script>
-    @stop
+{{-- @else --}}
+@stop

@@ -5,8 +5,6 @@
 
 @stop
 
-
-
 @section('content')
 <div class="container-fluid">
     <div class="row ">
@@ -20,9 +18,21 @@
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
                                             <a href="index.html">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
-                                                    height="auto" /> </a>
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /> </a>
                                         </div>
+
+                                        @if ($errors->any())
+                                            @foreach ($errors->all() as $error)
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
+                                            @endforeach
+                                        @endif
+
+                                        @if(Session::has('message'))
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                            {{ Session::get('message') }}</p>
+                                        @endif
 
                                         <h6 class="h5 mb-0 mt-4">Reset Password</h6>
                                         <p class="text-muted mt-1 mb-5">
@@ -30,19 +40,18 @@
                                             reset your password.
                                         </p>
 
-                                        
-                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST">
+                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST" id="submitForm">
                                             @csrf
 
                                             <div class="form-group">
                                                 <label class="form-control-label">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
-
                                                     </div>
-                                                    <input type="tel" id="phone" name="phone_number" class="form-control" required>
-
+                                                    <input type="number" id="phone" name="" class="form-control" value="" aria-describedby="helpPhone" placeholder="813012345" required>
+                                                    <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                                                 </div>
+                                                <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                             </div>
 
                                             <div class="form-group mb-0 text-center">
@@ -58,8 +67,7 @@
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Back to <a href="/admin/login"
-                                        class="text-primary font-weight-bold ml-1">Login</a></p>
+                                <p class="text-muted">Back to <a href="/admin/login" class="text-primary font-weight-bold ml-1">Login</a></p>
                             </div> <!-- end col -->
                         </div>
                         <!-- end row -->
@@ -73,8 +81,7 @@
 
             </div>
         </div>
-        <div class="col-lg-8 d-none d-md-block bg-cover"
-            style="background-image: url(/backend/assets/images/login.svg);">
+        <div class="col-lg-8 d-none d-md-block bg-cover" style="background-image: url(/backend/assets/images/login.svg);">
 
         </div>
     </div>
@@ -87,9 +94,28 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
         // any initialisation options go here
     });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+
+    });
+
 </script>
 
 
